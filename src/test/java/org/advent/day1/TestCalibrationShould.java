@@ -77,4 +77,41 @@ public class TestCalibrationShould {
         assertThat(calibration.getCalibrationValue(), equalTo(9));
     }
     
+    @Test
+    void should_handle_numbers_as_words(){
+        Calibration calibration = new Calibration("one");
+        assertThat(calibration.getFirstDigit(), equalTo(1));
+        assertThat(calibration.getLastDigit(), equalTo(1));
+        assertThat(calibration.getCalibrationValue(), equalTo(11));
+
+        calibration.setCalibrationValue("2onekl3j7four");
+        assertThat(calibration.getFirstDigit(), equalTo(2));
+        assertThat(calibration.getLastDigit(), equalTo(4));
+        assertThat(calibration.getCalibrationValue(), equalTo(24));
+
+        calibration.setCalibrationValue("zerone8lkdsfjtwenty6fivelkdf");
+        assertThat(calibration.getFirstDigit(),equalTo(0));
+        assertThat(calibration.getLastDigit(), equalTo(5));
+        assertThat(calibration.getCalibrationValue(), equalTo(5));
+
+        calibration.setCalibrationValue("bbsqsix6");
+        assertThat(calibration.getFirstDigit(),equalTo(6));
+        assertThat(calibration.getLastDigit(), equalTo(6));
+        assertThat(calibration.getCalibrationValue(), equalTo(66));
+
+        calibration.setCalibrationValue("1sixhvsclvhshbr");
+        assertThat(calibration.getFirstDigit(),equalTo(1));
+        assertThat(calibration.getLastDigit(), equalTo(6));
+        assertThat(calibration.getCalibrationValue(), equalTo(16));
+
+        calibration.setCalibrationValue("two41sevenseventhreeone1seven");
+        assertThat(calibration.getFirstDigit(),equalTo(2));
+        assertThat(calibration.getLastDigit(), equalTo(7));
+        assertThat(calibration.getCalibrationValue(), equalTo(27));
+
+        calibration.setCalibrationValue("lmfgxfdsevenchrkbhxlrrssbcqqf7fivectglcvrsrg8");
+        assertThat(calibration.getFirstDigit(),equalTo(7));
+        assertThat(calibration.getLastDigit(), equalTo(8));
+        assertThat(calibration.getCalibrationValue(), equalTo(78));
+    }
 }
