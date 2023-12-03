@@ -42,6 +42,14 @@ public class CubeGameRound {
         return this.grabSets.size();
     }
     
+    /**
+     * Determine if this game round would have been possible if the maximum
+     * red, green & blue cubes were capped by the input parameters
+     * @param maxRed
+     * @param maxGreen
+     * @param maxBlue
+     * @return
+     */
     public boolean isThisGameValid(int maxRed, int maxGreen, int maxBlue) {
         for(BagGrab grab : this.grabSets) {
             if(grab.getNumberOfCubesByColor("red")>maxRed
@@ -50,5 +58,23 @@ public class CubeGameRound {
                 return false;
         }
         return true;
+    }
+
+    /**
+     * Determine the minum number of each color required to play this game round
+     * @return an array of 3 numbers representing the minium red, green, blue
+     * cubes required to play this game
+     */
+    public int[] getMinimumColorsNeeded() {
+        int minRed=0, minGreen=0, minBlue=0;
+        for(BagGrab grab : this.grabSets) {
+            if(grab.getNumberOfCubesByColor("red")>minRed)
+                minRed=grab.getNumberOfCubesByColor("red");
+            if(grab.getNumberOfCubesByColor("green")>minGreen)
+                minGreen=grab.getNumberOfCubesByColor("green");
+            if(grab.getNumberOfCubesByColor("blue")>minBlue)
+                minBlue=grab.getNumberOfCubesByColor("blue");
+        }
+        return new int[]{minRed,minGreen,minBlue};
     }
 }

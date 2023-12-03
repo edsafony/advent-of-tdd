@@ -67,4 +67,29 @@ public class TestCubeGameRoundShould {
         assertFalse(gameRound.isThisGameValid(3,  9, 4));
         assertFalse(gameRound.isThisGameValid(0,  0, 0));
     }
+
+    @Test
+    void should_return_three_minimum_numbers() {
+        CubeGameRound gameRound = new CubeGameRound();
+
+        gameRound.init("Game 1: 4 blue; 10 green, 3 red");
+        assertThat(gameRound.getMinimumColorsNeeded().length, equalTo(3));
+
+        gameRound.init("Game 1: 4 red; 10 green, 3 red");
+        assertThat(gameRound.getMinimumColorsNeeded().length, equalTo(3));
+    }
+
+    @Test
+    void should_find_correct_minimums() {
+        CubeGameRound gameRound = new CubeGameRound();
+
+        gameRound.init("Game 1: 4 blue; 10 green, 3 red");
+        assertArrayEquals(new int[]{3,10,4}, gameRound.getMinimumColorsNeeded());
+
+        gameRound.init("Game 1: 4 blue, 15 red, 2 green; 10 green, 3 red, 1 blue");
+        assertArrayEquals(new int[]{15,10,4}, gameRound.getMinimumColorsNeeded());
+
+        gameRound.init("Game 1: 4 blue, 23 red; 1 green, 3 red, 5 blue");
+        assertArrayEquals(new int[]{23,1,5}, gameRound.getMinimumColorsNeeded());
+    }
 }

@@ -7,8 +7,8 @@ import java.nio.file.Path;
 
 public class PlayElfGame {
     public static void main(String[] args) {
-        int maxRed = 12, maxGreen = 13, maxBlue = 14, totalGames = 0;
-        String gameLine;
+        int maxRed = 12, maxGreen = 13, maxBlue = 14, sumOfValidGames = 0, totalPowerSum=0, totalGames=0;
+        String gameLine; int[] minCubesNeeded;
         CubeGameRound gameRound = new CubeGameRound();
 
         try {
@@ -16,10 +16,14 @@ public class PlayElfGame {
                     Path.of("src/main/java/org/advent/day2/resources/realinput.txt"));
             
             while((gameLine=reader.readLine())!= null && !gameLine.isBlank()) {
+                totalGames++;
                 gameRound.init(gameLine);
                 if(gameRound.isThisGameValid(maxRed, maxGreen, maxBlue)) {
-                    totalGames += gameRound.getGameId();
+                    sumOfValidGames += gameRound.getGameId();
                 }
+
+                minCubesNeeded = gameRound.getMinimumColorsNeeded();
+                totalPowerSum += (minCubesNeeded[0]*minCubesNeeded[1]*minCubesNeeded[2]);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -27,6 +31,7 @@ public class PlayElfGame {
         }
         System.out.println(String.format(
             "The sum of the valid game IDs is %d when max red, green & blue are %d, %d & %d"
-            , totalGames, maxRed, maxGreen, maxBlue));
+            , sumOfValidGames, maxRed, maxGreen, maxBlue));
+        System.out.println(String.format("The power sum for all %d games is %d.",totalGames, totalPowerSum));
     }
 }
