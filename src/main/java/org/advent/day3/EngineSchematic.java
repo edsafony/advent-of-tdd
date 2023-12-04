@@ -93,8 +93,11 @@ public class EngineSchematic {
      * @return the number starting at x, y coordinate else NULL
      */
     public Integer getNumber(int x, int y) {
-        if (!this.numbers.isEmpty())
-            return this.numbers.get(x)[y];
+        if (!this.numbers.isEmpty() &&
+            !(x<0 || x>this.numbers.size() || y<0 || y>this.numbers.get(x).length)) {
+                return this.numbers.get(x)[y];
+        }
+
         return null;
     }
 
@@ -128,6 +131,45 @@ public class EngineSchematic {
                     sum += numberRow[j];
         }
         return sum;
+    }
+
+    public int getSumGearRatios() {
+        int sum=0;
+        for(int i=0; i<this.symbols.size(); i++) {
+            Character[] symbolRow = this.symbols.get(i);
+            for(int j=0; j<symbolRow.length; j++) {
+                sum += getGearRatio(i, j, symbolRow[j]);
+            }
+        }
+        return sum;
+    }
+
+    private int getGearRatio(int x, int y, Character symbol) {
+        if(isValidSymbol(x, y) && symbol == '*') {
+            ArrayList<Integer> closeParts = new ArrayList<>();
+
+            Integer num = getNumber(x-1, y-1);
+            if(num!=null) closeParts.add(num);
+            num = getNumber(x-1, y);
+            if(num!=null) closeParts.add(num);
+            num = getNumber(x-1, y+1);
+            if(num!=null) closeParts.add(num);
+            num = getNumber(x, y-1);
+            if(num!=null) closeParts.add(num);
+            num = getNumber(x-1, y+1);
+            if(num!=null) closeParts.add(num);
+            num = getNumber(x+1, y-1);
+            if(num!=null) closeParts.add(num);
+            num = getNumber(x+1, y);
+            if(num!=null) closeParts.add(num);
+            num = getNumber(x+1, y+1);
+            if(num!=null) closeParts.add(num);
+
+            if(closeParts.size()==2)
+                return closeParts.get(0)*closeParts.get(1);
+        }
+
+        return 0;
     }
     private boolean nearSymbol(int x, int y) {
         return isValidSymbol(x - 1, y - 1) ||

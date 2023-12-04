@@ -84,4 +84,10 @@ public class TestEngineSchematicShould {
         engine.addSchemaRow(3, ".....9....");
         assertThat(engine.getSumAllParts(), equalTo(128));
     }
+
+    @Test
+    void should_calculate_gear_ratio() throws IOException {
+        EngineSchematic engine = new EngineSchematic("resources/puzzle2test.txt");
+        assertThat(engine.getSumGearRatios(), equalTo(451490));
+    }
 }
