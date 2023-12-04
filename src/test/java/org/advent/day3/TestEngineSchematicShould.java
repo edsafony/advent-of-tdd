@@ -4,6 +4,8 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 
 public class TestEngineSchematicShould {
@@ -11,7 +13,7 @@ public class TestEngineSchematicShould {
     @Test
     void should_be_empty_when_created() {
         EngineSchematic engine = new EngineSchematic();
-        assertEquals(engine.size(), equalTo(0));
+        assertThat(engine.size(), equalTo(0));
     }
 
     @Test
@@ -22,8 +24,8 @@ public class TestEngineSchematicShould {
     }
 
     @Test
-    void should_read_input_from_file() {
-        EngineSchematic engine = new EngineSchematic("testinput.txt");
+    void should_read_input_from_file() throws IOException {
+        EngineSchematic engine = new EngineSchematic("resources/testinput.txt");
         assertTrue(engine.size()>0);
     }
 
@@ -43,9 +45,9 @@ public class TestEngineSchematicShould {
         engine.addSchemaRow(0, "..2.4..101.");
         assertNull(engine.getNumber(0, 0));
         assertNull(engine.getNumber(0, 1));
-        assertEquals(engine.getNumber(0, 2), equalTo(2));
-        assertEquals(engine.getNumber(0, 4), equalTo(4));
-        assertEquals(engine.getNumber(0, 7), equalTo(101));
+        assertThat(engine.getNumber(0, 2), equalTo(2));
+        assertThat(engine.getNumber(0, 4), equalTo(4));
+        assertThat(engine.getNumber(0, 7), equalTo(101));
     }
 
     @Test
@@ -65,5 +67,21 @@ public class TestEngineSchematicShould {
         assertFalse(engine.isPartNumber(1, 5));//2 invalid
         assertTrue(engine.isPartNumber(0, 6));//101 is now valid
         assertTrue(engine.isPartNumber(2, 9));//7 is valid
+    }
+
+    @Test
+    void should_add_all_valid_part_numbers() {
+        EngineSchematic engine = new EngineSchematic();
+        engine.addSchemaRow(0, "..*4..101.");
+        assertThat(engine.getSumAllParts(), equalTo(4));
+
+        //add rows above & below
+        engine = new EngineSchematic();
+        engine.addSchemaRow(0, "..*4..101.");
+        engine.addSchemaRow(1, "..16.2...*");
+        engine.addSchemaRow(2, ".........7");
+        assertThat(engine.getSumAllParts(), equalTo(128));
+        engine.addSchemaRow(3, ".....9....");
+        assertThat(engine.getSumAllParts(), equalTo(128));
     }
 }
