@@ -6,7 +6,7 @@ import java.util.List;
 public class ScratchCard {
     List<String> winningNumbers;
     List<String> myNumbers;
-    int[] pointTable = new int[]{0,1,2,4,8,16,32,64,128,256,512};
+    private int[] pointTable = new int[]{0,1,2,4,8,16,32,64,128,256,512};
 
     public ScratchCard() {
         winningNumbers=new ArrayList<>();

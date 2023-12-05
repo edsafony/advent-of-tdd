@@ -1,27 +1,17 @@
 package org.advent.day4;
 
-import java.io.BufferedReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 public class CardPile {
     public static void main(String[] args) {
-        String fileName = "src/main/java/org/advent/day4/resources/puzzleinput.txt";
-        int totalPoints=0;
-        String line="";
-        ScratchCard card;
-
+        String fileName = "resources/puzzleinput.txt";
         try {
-            BufferedReader reader = Files.newBufferedReader(Path.of(fileName));
-
-            while((line=reader.readLine())!=null) {
-                card = new ScratchCard(line);
-                totalPoints += card.points();
-            }
+            CardCopyGame game = new CardCopyGame(fileName);
+            System.out.println(String.format(
+                    "There are a total of %d points in this %d card pile!", game.cards.size(), game.getTotalPoints()));
+            System.out.println(String.format(
+                    "After copying the original %d cards, there are a total number of %d cards", game.cards.size(),
+                    game.countCopies()));
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println(String.format("There are a total of %d points in this card pile!", totalPoints));
     }
 }
