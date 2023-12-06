@@ -27,7 +27,7 @@ public class TestAlmanacMapShould {
     }
     
     @Test
-    void should_have_correct_ranges_when_created() {
+    void should_add_correct_ranges() {
         AlmanacMap mapper = new AlmanacMap();
 
         mapper.addMapping(98, 50, 2);
